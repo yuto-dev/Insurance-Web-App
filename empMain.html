@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <link href="empHome.css" rel="stylesheet">
+    <body>
+        <div class="sidenav">
+            <a class="active" href="#dashboard">Dashboard</a>
+            <button class="dropdown-btn">User
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="">Add User</a>
+                <a href="">Edit User</a>
+                <a href="">Delete User</a>
+            </div>
+            <button class="dropdown-btn">Report
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="">Monthly Sales</a>
+                <a href="">Revenue</a>
+            </div>
+            <a href="login.html">Logout</a>
+        </div>
+
+        <div class="content">
+            <h2>Dashboard</h2>
+            <h4>Welcome Back User</h4>
+        </div>
+
+        <script>
+            /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+            
+            for (i = 0; i < dropdown.length; i++) {
+              dropdown[i].addEventListener("click", function() {
+              this.classList.toggle("active");
+              var dropdownContent = this.nextElementSibling;
+              if (dropdownContent.style.display === "block") {
+              dropdownContent.style.display = "none";
+              } else {
+              dropdownContent.style.display = "block";
+              }
+              });
+            }
+            </script>
+    </body>
+</html>
