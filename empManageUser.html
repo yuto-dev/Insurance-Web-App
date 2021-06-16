@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <link href="empAddUser.css" rel="stylesheet">
+    <link href="empManageUser.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <body>
         <div class="sidenav">
             <h1>Menu</h1>
             <p id="date"></p>
             <a class href="empMain.html">Dashboard</a>
             <button class="dropdown-btn">User
-                <i class="fa-caret-down"></i>
+                <i class="caret-down"></i>
             </button>
             <div class="dropdown-container">
                 <a class="active" href="empAddUser.html">Add User</a>
                 <a href="empManageUser.html">Manage User</a>
             </div>
             <button class="dropdown-btn">Report
-                <i class="fa-caret-down"></i>
+                <i class="caret-down"></i>
             </button>
             <div class="dropdown-container">
                 <a href="empMonthlySales.html">Monthly Sales</a>
@@ -25,7 +27,29 @@
 
         <div class="content">
             <h2>Manage User</h2>
-            <h4>Contents</h4>
+            <table id="customers">
+                <tr>
+                    <th>Client Name</th>
+                    <th>Plan Name</th>
+                    <th>Operations</th>
+                </tr>
+                <tr>
+                    <td>Bryan Sui</td>
+                    <td>Plan X</td>
+                    <td>
+                        <button class="operation"><i class="fa fa-edit"></i></button>
+                        <button class="operation"><i class="fa fa-remove"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Elgius Espin</td>
+                    <td>Plan Y</td>
+                    <td>
+                        <button class="operation"><i class="fa fa-edit"></i></button>
+                        <button class="operation"><i class="fa fa-remove"></i></button>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <script>
