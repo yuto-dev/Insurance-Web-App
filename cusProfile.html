@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Subscribed Plans</title>
+    <title>Profile</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,8 +19,6 @@
 
     <!-- Custom styles for this template-->
     <link href="sb-admin-2.css" rel="stylesheet">
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -171,6 +169,59 @@
                             </div>
                         </li>
 
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        
+
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -213,137 +264,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Subscribed Plans</h1>
-
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Subscription date</th>
-                                            <th>Operations</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Subscription date</th>
-                                            <th>Operations</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan Name</td>
-                                            <td>Plan Description</td>
-                                            <td>Subcription Date</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="">View</a>
-                                                <a class="btn btn-primary" href="cusClaim.html">Claim</a>
-                                                <a class="btn btn-secondary" href="cusRefund.html">Refund</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <h1 class="h3 mb-4 text-gray-800">Profile</h1>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -401,13 +322,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 
