@@ -1,3 +1,18 @@
+<?php
+    $con = new mysqli("localhost","root","","insurance");
+
+    if($con->connect_error) {
+        die("Failed to connect : ".$con->connect_error);
+    } else {
+        $sql = "SELECT * FROM monthly_sales";
+
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        $rowcount = mysqli_num_rows($result);
+
+        mysqli_close($con);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +24,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Manage User</title>
+    <title>Monthly Sales</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,8 +34,6 @@
 
     <!-- Custom styles for this template-->
     <link href="sb-admin-2.css" rel="stylesheet">
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -66,7 +79,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
                         <a class="collapse-item" href="empAddUser.html">Add User</a>
-                        <a class="collapse-item" href="empManageUser.html">Manage User</a>
+                        <a class="collapse-item" href="empManageUser.php">Manage User</a>
                     </div>
                 </div>
             </li>
@@ -100,24 +113,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
                         <a class="collapse-item" href="empAddPlan.html">Add Plan</a>
-                        <a class="collapse-item" href="empManagePlan.html">Manage Plan</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWork"
-                    aria-expanded="true" aria-controls="collapseWork">
-                    <i class="fas fa-fw fa-database"></i>
-                    <span>Database</span>
-                </a>
-                <div id="collapseWork" class="collapse" aria-labelledby="headingWork"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empViewRecord.html">View Record</a>
-                        <a class="collapse-item" href="empWorkforce.html">Workforce</a>                    
+                        <a class="collapse-item" href="empManagePlan.php">Manage Plan</a>
                     </div>
                 </div>
             </li>
@@ -283,109 +279,19 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Manage Plan</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Monthly Sales</h1>
 
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Detail</th>
-                                            <th>Start date</th>
-                                            <th>Operations</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Detail</th>
-                                            <th>Start date</th>
-                                            <th>Operations</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>33</td>
-                                            <td>2011/04/25</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>61</td>
-                                            <td>2012/12/02</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Herrod Chandler</td>
-                                            <td>Sales Assistant</td>
-                                            <td>59</td>
-                                            <td>2012/08/06</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Rhona Davidson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>55</td>
-                                            <td>2010/10/14</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Colleen Hurst</td>
-                                            <td>Javascript Developer</td>
-                                            <td>39</td>
-                                            <td>2009/09/15</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Sonya Frost</td>
-                                            <td>Software Engineer</td>
-                                            <td>23</td>
-                                            <td>2008/12/13</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                         <!-- Bar Chart -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Monthly Sales</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-bar">
+                                    <canvas id="myBarChart"></canvas>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -445,11 +351,12 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/chart-bar-demo.js"></script>
 
 </body>
 

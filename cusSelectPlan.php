@@ -1,3 +1,34 @@
+<?php
+    $con = new mysqli("localhost","root","","insurance");
+    if($con->connect_error) {
+        die("Failed to connect : ".$con->connect_error);
+    } else {
+        $sql = "SELECT * FROM addplan";
+
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        $rowcount = mysqli_num_rows($result);
+        $row = mysqli_fetch_array($result);
+
+        mysqli_close($con);
+    }
+
+    function createCard(array $row) { ?>
+        <div class="col-6"> 
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><?php echo $row['plan']?></h6>
+                </div>
+                <div class="card-body">
+                    <?php echo $row['description']?>
+                </div>
+                <div class="card-header py-3">
+                    <a class="btn btn-primary" href="cusPlanInfo.html">More Info</a>
+                </div>
+            </div>
+        </div>
+    <?php } 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +40,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Main Dashboard</title>
+    <title>Select Plan</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +50,8 @@
 
     <!-- Custom styles for this template-->
     <link href="sb-admin-2.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -211,105 +244,22 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Refund</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Select Plan</h1>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Plans Available</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <?php 
+                                while ($row = mysqli_fetch_array($result)){
+                                    createCard($row);
+                                }     
+                                ?>
+                            </div>
+                        </div>
                     </div>
-
-                    <form class="user">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h4 mb-0 text-primary">Policy Information</h1>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Name of Plan Holder</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputUsername" aria-describedby="usernameHelp"
-                                placeholder="Enter Name...">
-                            </div>
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Plan Name</h6>
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputName" aria-describedby="numberHelp"
-                                    placeholder="Enter Plan Name...">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Start Date</h6>
-                                <input type="date" class="form-control form-control-range"
-                                    id="exampleInputStartDate" placeholder="Start Date">
-                            </div>
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Expiry Date</h6>
-                                <input type="date" class="form-control form-control-range"
-                                    id="exampleInputExpiryDate" placeholder="Expiry Date">
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h4 mb-0 text-primary">Contact Information</h1>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <h6 class="m-0 font-weight-bold text-primary">Full Name</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputFullName" aria-describedby="firstnameHelp"
-                                placeholder="Enter Full Name...">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Address</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputAddress1" aria-describedby="address1Help"
-                                placeholder="Address Line 1">
-                            </div>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputAddress2" aria-describedby="address2Help"
-                                    placeholder="Address Line 2">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputCity" aria-describedby="cityHelp"
-                                placeholder="City">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputAddress2" aria-describedby="stateHelp"
-                                    placeholder="State">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputCode" aria-describedby="codeHelp"
-                                placeholder="Postal Code">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Refund Reason</h6>
-                                <textarea class="form-control form-control-range" 
-                                id="exampleInputCode" aria-describedby="codeHelp"
-                                placeholder="Refund Reason"></textarea>
-                            </div>
-                        </div>
-
-                        <a href="cusMain.html" class="btn btn-primary btn-block">
-                            Request
-                        </a>
-                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -321,7 +271,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -352,7 +302,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="cusLogin.html">Logout</a>
+                    <a class="btn btn-primary" href="empLogin.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -369,11 +319,11 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 

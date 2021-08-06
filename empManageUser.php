@@ -1,3 +1,17 @@
+<?php
+    $con = new mysqli("localhost","root","","insurance");
+    if($con->connect_error) {
+        die("Failed to connect : ".$con->connect_error);
+    } else {
+        $sql = "SELECT * FROM customer_records";
+
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        $rowcount = mysqli_num_rows($result);
+
+        mysqli_close($con);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +23,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Main Dashboard</title>
+    <title>Manage User</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +33,8 @@
 
     <!-- Custom styles for this template-->
     <link href="sb-admin-2.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -31,7 +47,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="cusMain.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="empMain.html">
                 <div class="sidebar-brand-text mx-3">Company</div>
             </a>
 
@@ -40,7 +56,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="cusMain.html">
+                <a class="nav-link" href="empMain.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -53,6 +69,39 @@
                 Menu
             </div>
 
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-user-alt"></i>
+                    <span>User</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Submenu:</h6>
+                        <a class="collapse-item" href="empAddUser.html">Add User</a>
+                        <a class="collapse-item" href="empManageUser.php">Manage User</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-chart-line"></i>
+                    <span>Report</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Submenu:</h6>
+                        <a class="collapse-item" href="empMonthlySales.html">Monthly Income</a>
+                        <a class="collapse-item" href="empRevenue.html">Revenue</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlans"
@@ -64,41 +113,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusSelectPlan.html">Select Plan</a>
-                        <a class="collapse-item" href="cusManagePayment.html">Subscribed Plans</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWork"
-                    aria-expanded="true" aria-controls="collapseWork">
-                    <i class="fas fa-fw fa-database"></i>
-                    <span>Refunds & Claims</span>
-                </a>
-                <div id="collapseWork" class="collapse" aria-labelledby="headingWork"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusRefundHistory.html">Refund History</a>
-                        <a class="collapse-item" href="cusClaimHistory.html">Claim History</a>                    
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAgent"
-                    aria-expanded="true" aria-controls="collapseAgent">
-                    <i class="fas fa-fw fa-phone-alt"></i>
-                    <span>Contact Agent</span>
-                </a>
-                <div id="collapseAgent" class="collapse" aria-labelledby="headingAgent"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusFeedback.html">Feedback</a>                    
+                        <a class="collapse-item" href="empAddPlan.html">Add Plan</a>
+                        <a class="collapse-item" href="empManagePlan.php">Manage Plan</a>
                     </div>
                 </div>
             </li>
@@ -169,6 +185,59 @@
                             </div>
                         </li>
 
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        
+
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -182,7 +251,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="cusProfile.html">
+                                <a class="dropdown-item" href="empProfile.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -211,105 +280,78 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Refund</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Manage User</h1>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Nationality</th>
+                                            <th>Phone Number</th>
+                                            <th>Income</th>
+                                            <th>Plan Choice</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Nationality</th>
+                                            <th>Phone Number</th>
+                                            <th>Income</th>
+                                            <th>Plan Choice</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <?php
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        echo "<tr>";    
+
+                                        echo "<td>";
+                                        echo $row['NAME'];
+                                        echo "</td>";
+
+                                        echo "<td>";
+                                        echo $row['AGE'];
+                                        echo "</td>";
+
+                                        echo "<td>";
+                                        echo $row['GENDER'];
+                                        echo "</td>";
+
+                                        echo "<td>";
+                                        echo $row['NATIONALITY'];
+                                        echo "</td>";
+
+                                        echo "<td>";
+                                        echo $row['PHONE_NUMBER'];
+                                        echo "</td>";
+
+                                        echo "<td>";
+                                        echo $row['INCOME'];
+                                        echo "</td>";
+
+                                        echo "<td>";
+                                        echo $row['PLAN_CHOICE'];
+                                        echo "</td>";
+
+                                        echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
-                    <form class="user">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h4 mb-0 text-primary">Policy Information</h1>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Name of Plan Holder</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputUsername" aria-describedby="usernameHelp"
-                                placeholder="Enter Name...">
-                            </div>
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Plan Name</h6>
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputName" aria-describedby="numberHelp"
-                                    placeholder="Enter Plan Name...">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Start Date</h6>
-                                <input type="date" class="form-control form-control-range"
-                                    id="exampleInputStartDate" placeholder="Start Date">
-                            </div>
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">Expiry Date</h6>
-                                <input type="date" class="form-control form-control-range"
-                                    id="exampleInputExpiryDate" placeholder="Expiry Date">
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h4 mb-0 text-primary">Contact Information</h1>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <h6 class="m-0 font-weight-bold text-primary">Full Name</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputFullName" aria-describedby="firstnameHelp"
-                                placeholder="Enter Full Name...">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Address</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputAddress1" aria-describedby="address1Help"
-                                placeholder="Address Line 1">
-                            </div>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputAddress2" aria-describedby="address2Help"
-                                    placeholder="Address Line 2">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputCity" aria-describedby="cityHelp"
-                                placeholder="City">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputAddress2" aria-describedby="stateHelp"
-                                    placeholder="State">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputCode" aria-describedby="codeHelp"
-                                placeholder="Postal Code">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Refund Reason</h6>
-                                <textarea class="form-control form-control-range" 
-                                id="exampleInputCode" aria-describedby="codeHelp"
-                                placeholder="Refund Reason"></textarea>
-                            </div>
-                        </div>
-
-                        <a href="cusMain.html" class="btn btn-primary btn-block">
-                            Request
-                        </a>
-                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -321,7 +363,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -352,7 +394,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="cusLogin.html">Logout</a>
+                    <a class="btn btn-primary" href="empLogin.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -369,11 +411,11 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 

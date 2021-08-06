@@ -64,7 +64,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
                         <a class="collapse-item" href="empAddUser.html">Add User</a>
-                        <a class="collapse-item" href="empManageUser.html">Manage User</a>
+                        <a class="collapse-item" href="empManageUser.php">Manage User</a>
                     </div>
                 </div>
             </li>
@@ -98,24 +98,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
                         <a class="collapse-item" href="empAddPlan.html">Add Plan</a>
-                        <a class="collapse-item" href="empManagePlan.html">Manage Plan</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWork"
-                    aria-expanded="true" aria-controls="collapseWork">
-                    <i class="fas fa-fw fa-database"></i>
-                    <span>Database</span>
-                </a>
-                <div id="collapseWork" class="collapse" aria-labelledby="headingWork"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empViewRecord.html">View Record</a>
-                        <a class="collapse-item" href="empWorkforce.html">Workforce</a>                    
+                        <a class="collapse-item" href="empManagePlan.php">Manage Plan</a>
                     </div>
                 </div>
             </li>
@@ -283,42 +266,81 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Add User</h1>
 
-                    <form class="user">
+                    <form class="user" action="empAddUser.php" method="POST">
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h4 mb-0 text-primary">Login Information</h1>
+                        </div>
+
                         <div class="form-group row">
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputUsername" aria-describedby="usernameHelp"
-                                placeholder="Enter Username...">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="email" class="form-control form-control-range"
+                                <h6 class="m-0 font-weight-bold text-primary">Email</h6>
+                                <input type="email" name='email' class="form-control form-control-range"
                                     id="exampleInputEmail" aria-describedby="emailHelp"
                                     placeholder="Enter Email Address...">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6">
-                                <input type="password" class="form-control form-control-range"
+                                <h6 class="m-0 font-weight-bold text-primary">Password</h6>
+                                <input type="password" name="password" class="form-control form-control-range"
                                     id="exampleInputPassword" placeholder="Password">
                             </div>
                             <div class="col-sm-6">
-                                <input type="password" class="form-control form-control-range"
+                                <h6 class="m-0 font-weight-bold text-primary">Confirm Password</h6>
+                                <input type="password" name="confirmpassword" class="form-control form-control-range"
                                     id="exampleInputConfirmPassword" placeholder="Confirm Password">
                             </div>
-                        </div>   
+                        </div>
+                        
+                        <hr>
+
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h4 mb-0 text-primary">Personal Information</h1>
+                        </div>
+
                         <div class="form-group row">
                             <div class="col-sm-6">
-                                <input type="date" class="form-control form-control-range"
-                                    id="exampleInputDate" placeholder="Date">
+                                <h6 class="m-0 font-weight-bold text-primary">Full Name</h6>
+                                <input type="text" name="name" class="form-control form-control-range"
+                                    id="exampleInputName" placeholder="Full Name">
                             </div>
                             <div class="col-sm-6">
-                                <input type="number" min="0" max="99" class="form-control form-control-range"
+                                <h6 class="m-0 font-weight-bold text-primary">Age</h6>
+                                <input type="number" name="age" min="0" max="99" class="form-control form-control-range"
                                     id="exampleInputAge" placeholder="Age">
                             </div>
                         </div>   
-                        <a href="empMain.html" class="btn btn-primary btn-block">
-                            Add
-                        </a>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <h6 class="m-0 font-weight-bold text-primary">Gender</h6>
+                                <select class="form-control form-control-range" name="gender"
+                                    id="exampleInputGender" placeholder="Gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="m-0 font-weight-bold text-primary">Nationality</h6>
+                                <input type="text" name="nationality" class="form-control form-control-range"
+                                    id="exampleInputNationality" placeholder="Nationality">
+                            </div>
+                        </div>   
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <h6 class="m-0 font-weight-bold text-primary">Contact Number</h6>
+                                <input type="text" name="contact"class="form-control form-control-range"
+                                    id="exampleInputPhone" placeholder="Contact Number">
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="m-0 font-weight-bold text-primary">Income(Monthly)</h6>
+                                <input type="number" name="income" min="0" class="form-control form-control-range"
+                                    id="exampleInputIncome" placeholder="Monthly Income">
+                            </div>
+                        </div>   
+
+                        <input class="btn btn-primary btn-block" type="Submit" value="Add" name="">
                     </form>
 
                 </div>
