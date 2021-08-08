@@ -5,7 +5,7 @@ $query = "DELETE FROM addplan WHERE id = '$_GET[id]'";
 $query_run = mysqli_query($con,$query);
 
 if($query_run){
-    header("Location: empMain.html");
+    header("Location: empMain.php");
     mysqli_close($con);
 } else {
     echo '<script>alert("Fail to Delete Plan!)';

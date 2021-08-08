@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+$con = new mysqli("localhost","root","","insurance");
+    if($con->connect_error) {
+        die("Failed to connect : ".$con->connect_error);
+    } else {
+        $sql = "SELECT * FROM customer_records WHERE User_ID = $_SESSION[sessionID]";
+
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        $rowcount = mysqli_num_rows($result);
+        $row = mysqli_fetch_array($result);
+
+        mysqli_close($con);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +26,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Select Plan</title>
+    <title>Main Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,8 +36,6 @@
 
     <!-- Custom styles for this template-->
     <link href="sb-admin-2.css" rel="stylesheet">
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -33,7 +48,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="cusMain.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="cusMain.php">
                 <div class="sidebar-brand-text mx-3">Company</div>
             </a>
 
@@ -42,7 +57,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="cusMain.html">
+                <a class="nav-link" href="cusMain.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -66,8 +81,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusSelectPlan.html">Select Plan</a>
-                        <a class="collapse-item" href="cusManagePayment.html">Subscribed Plans</a>
+                        <a class="collapse-item" href="cusSelectPlan.php">Select Plan</a>
+                        <a class="collapse-item" href="cusManagePayment.php">Subcribed Plans</a>
                     </div>
                 </div>
             </li>
@@ -83,8 +98,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusRefundHistory.html">Refund History</a>
-                        <a class="collapse-item" href="cusClaimHistory.html">Claim History</a>                    
+                        <a class="collapse-item" href="cusRefundHistory.php">Refund History</a>
+                        <a class="collapse-item" href="cusClaimHistory.php">Claim History</a>                    
                     </div>
                 </div>
             </li>
@@ -100,7 +115,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusFeedback.html">Feedback</a>                    
+                        <a class="collapse-item" href="cusFeedback.php">Feedback</a>                    
                     </div>
                 </div>
             </li>
@@ -129,20 +144,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -177,14 +178,18 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php 
+                                        echo $row['NAME'];
+                                    ?>
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="assets/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="cusProfile.html">
+                                <a class="dropdown-item" href="cusProfile.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -213,26 +218,53 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Feedback</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    </div>
 
-                    <form class="user">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h4 mb-0 text-primary">Feedback Form</h1>
-                        </div>
+                    <!-- Content Row -->
+                    <div class="row">
 
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3 ">
-                                <h6 class="m-0 font-weight-bold text-primary">Tell Us How You Feel About This Website</h6>
-                                <textarea class="form-control form-control-range" 
-                                id="exampleInputUsername" aria-describedby="usernameHelp"
-                                placeholder="Tell Us What Happened"></textarea>
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Active Plans</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-bookmark fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-    
-                        <a href="cusMain.html" class="btn btn-primary btn-block">
-                            Send Feedback
-                        </a>
-                    </form>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Under Progress</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                            src="assets/undraw_posting_photo.svg" alt="...">
+                                    </div>
+                                    <p>More To Come! Please Look Forward To It!</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -244,7 +276,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; Your Website 2021</span>
                     </div>
                 </div>
             </footer>
@@ -275,7 +307,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="empLogin.html">Logout</a>
+                    <a class="btn btn-primary" href="cusLogin.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -292,11 +324,11 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

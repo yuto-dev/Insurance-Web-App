@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     $con = new mysqli("localhost","root","","insurance");
     if($con->connect_error) {
         die("Failed to connect : ".$con->connect_error);
@@ -8,6 +10,12 @@
         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
         $rowcount = mysqli_num_rows($result);
         $row = mysqli_fetch_array($result);
+
+        $sql2 = "SELECT * FROM customer_records WHERE User_ID = $_SESSION[sessionID]";
+
+        $result2 = mysqli_query($con, $sql2) or die(mysqli_error($con));
+        $rowcount2 = mysqli_num_rows($result2);
+        $row2 = mysqli_fetch_array($result2);
 
         mysqli_close($con);
     }
@@ -22,7 +30,7 @@
                     <?php echo $row['description']?>
                 </div>
                 <div class="card-header py-3">
-                    <a class="btn btn-primary" href="cusPlanInfo.html">More Info</a>
+                    <a class="btn btn-primary" href="cusPlanInfo.php?id=<?php echo $row['id']; ?>">More Info</a>
                 </div>
             </div>
         </div>
@@ -64,7 +72,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="cusMain.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="cusMain.php">
                 <div class="sidebar-brand-text mx-3">Company</div>
             </a>
 
@@ -73,7 +81,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="cusMain.html">
+                <a class="nav-link" href="cusMain.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -97,8 +105,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusSelectPlan.html">Select Plan</a>
-                        <a class="collapse-item" href="cusManagePayment.html">Subscribed Plans</a>
+                        <a class="collapse-item" href="cusSelectPlan.php">Select Plan</a>
+                        <a class="collapse-item" href="cusManagePayment.php">Subscribed Plans</a>
                     </div>
                 </div>
             </li>
@@ -114,8 +122,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusRefundHistory.html">Refund History</a>
-                        <a class="collapse-item" href="cusClaimHistory.html">Claim History</a>                    
+                        <a class="collapse-item" href="cusRefundHistory.php">Refund History</a>
+                        <a class="collapse-item" href="cusClaimHistory.php">Claim History</a>                    
                     </div>
                 </div>
             </li>
@@ -131,7 +139,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="cusFeedback.html">Feedback</a>                    
+                        <a class="collapse-item" href="cusFeedback.php">Feedback</a>                    
                     </div>
                 </div>
             </li>
@@ -160,20 +168,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -208,14 +202,18 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <?php 
+                                        echo $row2['NAME'];
+                                    ?>
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="assets/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="cusProfile.html">
+                                <a class="dropdown-item" href="cusProfile.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>

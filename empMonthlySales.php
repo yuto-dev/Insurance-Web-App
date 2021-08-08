@@ -10,6 +10,12 @@
         $rowcount = mysqli_num_rows($result);
 
         mysqli_close($con);
+
+        $sql2 = "SELECT * FROM employee_records WHERE login_ID = $_SESSION[sessionID]";
+
+        $result2 = mysqli_query($con2, $sql) or die(mysqli_error($con));
+        $rowcount2 = mysqli_num_rows($result2);
+        $row2 = mysqli_fetch_array($result2);
     }
 ?>
 
@@ -46,7 +52,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="empMain.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="empMain.php">
                 <div class="sidebar-brand-text mx-3">Company</div>
             </a>
 
@@ -55,7 +61,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="empMain.html">
+                <a class="nav-link" href="empMain.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -78,7 +84,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empAddUser.html">Add User</a>
+                        <a class="collapse-item" href="empAddUser.php">Add User</a>
                         <a class="collapse-item" href="empManageUser.php">Manage User</a>
                     </div>
                 </div>
@@ -95,8 +101,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empMonthlySales.html">Monthly Income</a>
-                        <a class="collapse-item" href="empRevenue.html">Revenue</a>
+                        <a class="collapse-item" href="empMonthlySales.php">Monthly Income</a>
+                        <a class="collapse-item" href="empRevenue.php">Revenue</a>
                     </div>
                 </div>
             </li>
@@ -112,7 +118,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empAddPlan.html">Add Plan</a>
+                        <a class="collapse-item" href="empAddPlan.php">Add Plan</a>
                         <a class="collapse-item" href="empManagePlan.php">Manage Plan</a>
                     </div>
                 </div>
@@ -142,20 +148,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -243,14 +235,18 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php 
+                                        echo $row['NAME'];
+                                    ?>
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="assets/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="empProfile.html">
+                                <a class="dropdown-item" href="empProfile.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>

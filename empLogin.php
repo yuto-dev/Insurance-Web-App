@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+
 $email = $_POST['exampleInputEmail'];
 $password = $_POST['exampleInputPassword'];
 
@@ -11,11 +14,13 @@ if($con->connect_error) {
         $stmt->bind_param("s",$email);
         $stmt->execute();
         $stmt_result = $stmt->get_result();
-        if($stmt_result->num_rows > 0){
+        if($stmt_result->num_rows == 1){
             $data = $stmt_result->fetch_assoc();
+            $_SESSION['sessionID'] = $data["id"];
+
             if($data['password'] === $password){
                 echo "<h2>Login Successfeully</h2>";
-                header('Location: empMain.html');
+                header('Location: empMain.php');
             } else {
                 echo '<script>alert("Invalid Credentials!");
                 window.location.href="empLogin.html";</script>';

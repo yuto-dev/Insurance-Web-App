@@ -1,3 +1,26 @@
+<?php
+session_start();
+
+$con = new mysqli("localhost","root","","insurance");
+    if($con->connect_error) {
+        die("Failed to connect : ".$con->connect_error);
+    } else {
+        $sql = "SELECT * FROM customer_records WHERE User_ID = $_SESSION[sessionID]";
+
+        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        $rowcount = mysqli_num_rows($result);
+        $row = mysqli_fetch_array($result);
+
+        $sql2 = "SELECT * FROM customer_login WHERE id = $_SESSION[sessionID]";
+
+        $result2 = mysqli_query($con, $sql2) or die(mysqli_error($con));
+        $rowcount2 = mysqli_num_rows($result2);
+        $row2 = mysqli_fetch_array($result2);
+
+        mysqli_close($con);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +32,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Add Plan</title>
+    <title>Profile</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -31,7 +54,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="empMain.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="cusMain.php">
                 <div class="sidebar-brand-text mx-3">Company</div>
             </a>
 
@@ -40,7 +63,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="empMain.html">
+                <a class="nav-link" href="cusMain.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -53,39 +76,6 @@
                 Menu
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-user-alt"></i>
-                    <span>User</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empAddUser.html">Add User</a>
-                        <a class="collapse-item" href="empManageUser.php">Manage User</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-chart-line"></i>
-                    <span>Report</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empMonthlySales.html">Monthly Income</a>
-                        <a class="collapse-item" href="empRevenue.html">Revenue</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlans"
@@ -97,8 +87,41 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Submenu:</h6>
-                        <a class="collapse-item" href="empAddPlan.html">Add Plan</a>
-                        <a class="collapse-item" href="empManagePlan.php">Manage Plan</a>
+                        <a class="collapse-item" href="cusSelectPlan.php">Select Plan</a>
+                        <a class="collapse-item" href="cusManagePayment.php">Subscribed Plans</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWork"
+                    aria-expanded="true" aria-controls="collapseWork">
+                    <i class="fas fa-fw fa-database"></i>
+                    <span>Refunds & Claims</span>
+                </a>
+                <div id="collapseWork" class="collapse" aria-labelledby="headingWork"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Submenu:</h6>
+                        <a class="collapse-item" href="cusRefundHistory.php">Refund History</a>
+                        <a class="collapse-item" href="cusClaimHistory.php">Claim History</a>                    
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAgent"
+                    aria-expanded="true" aria-controls="collapseAgent">
+                    <i class="fas fa-fw fa-phone-alt"></i>
+                    <span>Contact Agent</span>
+                </a>
+                <div id="collapseAgent" class="collapse" aria-labelledby="headingAgent"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Submenu:</h6>
+                        <a class="collapse-item" href="cusFeedback.php">Feedback</a>                    
                     </div>
                 </div>
             </li>
@@ -127,20 +150,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -228,14 +237,18 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php 
+                                        echo $row['NAME'];
+                                    ?>
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="assets/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="empProfile.html">
+                                <a class="dropdown-item" href="cusProfile.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -264,76 +277,34 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Add Plan</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Profile</h1>
 
-                    <form class="user">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h4 mb-0 text-primary">Personal Information</h1>
-                        </div>
+                            <!-- Circle Buttons -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
+                                </div>
 
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">First Name</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputFirstName" aria-describedby="firstnameHelp"
-                                placeholder="Enter First Name...">
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Last Name</h6>
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputLastName" aria-describedby="lastnameHelp"
-                                    placeholder="Enter Last Name...">
-                            </div>
-                        </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <img class="img-profile rounded-circle" src="assets/username.png">
+                                                <br><br>
+                                                <a class="btn btn-primary offset-2" href="cusEditProfile.php">Edit Profile</a>
+                                            </div>
 
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Email</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                placeholder="Enter Email...">
+                                            <div class="col-sm-6">
+                                                <h6 class="m-0 mb-4 font-weight-bold text-black-50">Name    : <?php echo $row["NAME"] ?></h6>
+                                                <h6 class="m-0 mb-4 font-weight-bold text-black-50">Email   : <?php echo $row2["email"] ?></h6>
+                                                <h6 class="m-0 mb-4 font-weight-bold text-black-50">Contact : <?php echo $row["PHONE_NUMBER"] ?></h6>
+                                                <h6 class="m-0 mb-4 font-weight-bold text-black-50">Nationality : <?php echo $row["NATIONALITY"] ?></h6>
+                                                <h6 class="m-0 mb-4 font-weight-bold text-black-50">Income   : <?php echo $row["INCOME"] ?></h6>
+                                            </div>
+                                        </div>
+                                    </div>    
                             </div>
 
-                            <div class="col-sm-12 mb-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Address</h6>
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputAddress1" aria-describedby="address1Help"
-                                placeholder="Address Line 1">
-                            </div>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputAddress2" aria-describedby="address2Help"
-                                    placeholder="Address Line 2">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputCity" aria-describedby="cityHelp"
-                                placeholder="City">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-range"
-                                    id="exampleInputAddress2" aria-describedby="stateHelp"
-                                    placeholder="State">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3">
-                                <input type="text" class="form-control form-control-range" 
-                                id="exampleInputCode" aria-describedby="codeHelp"
-                                placeholder="Postal Code">
-                            </div>
-                        </div>
-
-                        <a href="cusMain.html" class="btn btn-primary btn-block">
-                            Edit
-                        </a>
-                    </form>
-
-                </div>
+                </div>            
                 <!-- /.container-fluid -->
 
             </div>
@@ -374,7 +345,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="empLogin.html">Logout</a>
+                    <a class="btn btn-primary" href="cusLogin.html">Logout</a>
                 </div>
             </div>
         </div>
